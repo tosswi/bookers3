@@ -1,0 +1,60 @@
+
+<div class="row">
+	<div class="col-xs-3">
+
+		<h2>User info</h2>
+		<%= render 'users/profile' %>
+
+		<h2>New book</h2>
+		<%= render 'books/newform', book:@book %>
+
+	</div>
+
+	<div class="col-xs-9">
+		<h2>Book detail</h2>
+
+		<table class="table">
+			<tr>
+				<td>
+					<%= link_to (@user) do %>
+					<%= attachment_image_tag(@user, :profile_image,  size: '100x100', fallback: "no-image-mini.jpg") %><br>
+					<% end %>
+				</td>
+				<td><%= link_to @book1.title, @book1 %></td>
+				<td><%= @book1.body %></td>
+				<td>
+				<% if @book1.favorited_by?(current_user) %>
+				<%= link_to book_favorites_path(@book1),method: :delete do %>
+				<i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+				<%= @book1.favorites.count %>
+				<% end %>
+				<% else %>
+				<%= link_to book_favorites_path(@book1),method: :post do %>
+				<i class="fas fa-heart" aria-hidden="true"></i>
+				<%= @book1.favorites.count %>
+				<% end %>
+				<% end %>
+			    </td>
+				<td>コメント数<%= @book1.book_comments.count %>件</td>
+				<% if current_user == @user %>
+				<td><%= link_to "Edit",edit_book_path(@book1), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
+				<td><%= link_to "Destroy",@book1, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
+				<% end %>
+					<%= @user.name %>
+			</tr>
+		</table>
+		<% @book1.book_comments.each do |book| %>
+		<table>
+			<tr>
+				<td><%= book.user.name %></td>
+				<td><%= book.comment %></td>
+				<% if current_user == @user %>
+				<td><%= link_to "Destroy",book_book_comments_path(@book1.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book" %></td>
+				<% end %>
+			</tr>
+		</table>
+		<% end %>
+		<%= render "book_comments/comment",comment:[@book1,@book_comment] %>
+	</div>
+</div>
+
