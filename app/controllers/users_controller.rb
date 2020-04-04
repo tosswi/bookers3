@@ -33,6 +33,12 @@ end
   		render :edit
   	end
   end
+  def followerindex
+    @user=User.find(params[:user_id])
+  end
+  def followindex
+    @user=User.find(params[:user_id])
+  end
 
   private
   def user_params

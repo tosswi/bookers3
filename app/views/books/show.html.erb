@@ -3,7 +3,7 @@
 	<div class="col-xs-3">
 
 		<h2>User info</h2>
-		<%= render 'users/profile' %>
+		<%= render 'users/profile',user:@user %>
 
 		<h2>New book</h2>
 		<%= render 'books/newform', book:@book %>
@@ -54,7 +54,17 @@
 			</tr>
 		</table>
 		<% end %>
-		<%= render "book_comments/comment",comment:[@book1,@book_comment] %>
+			<%= form_for [@book1,@book_comment] do |f| %>
+			    <% if @book_comment.errors.any? %>
+        <%= @book_comment.errors.count %>件のerrorが発生しました
+        <% @book_comment.errors.full_messages.each do |message| %>
+            <%= message %>
+        <% end %>
+
+    <% end %>
+			<%=f.text_area :comment %>
+			<%=f.submit %>
+			<% end %>
 	</div>
 </div>
 
