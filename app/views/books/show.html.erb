@@ -23,18 +23,12 @@
 				<td><%= link_to @book1.title, @book1 %></td>
 				<td><%= @book1.body %></td>
 				<td>
-				<% if @book1.favorited_by?(current_user) %>
-				<%= link_to book_favorites_path(@book1),method: :delete do %>
-				<i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
-				<%= @book1.favorites.count %>
-				<% end %>
-				<% else %>
-				<%= link_to book_favorites_path(@book1),method: :post do %>
-				<i class="fas fa-heart" aria-hidden="true"></i>
-				<%= @book1.favorites.count %>
-				<% end %>
-				<% end %>
+					
 			    </td>
+			    <td>
+			    	<%= render 'likes/like', book:@book1 %>
+			    </td>
+
 				<td>コメント数<%= @book1.book_comments.count %>件</td>
 				<% if current_user == @user %>
 				<td><%= link_to "Edit",edit_book_path(@book1), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
@@ -60,7 +54,6 @@
         <% @book_comment.errors.full_messages.each do |message| %>
             <%= message %>
         <% end %>
-
     <% end %>
 			<%=f.text_area :comment %>
 			<%=f.submit %>

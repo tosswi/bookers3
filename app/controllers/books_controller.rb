@@ -14,7 +14,7 @@ class BooksController < ApplicationController
   	@books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
     @user=current_user
     @book = Book.new
-  end
+   end
 
   def create
     @user=current_user

@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     end
   end
 
+
   def show
     @user=User.find(params[:id])
     @books = User.find(params[:id]).books
@@ -38,6 +39,17 @@ end
   end
   def followindex
     @user=User.find(params[:user_id])
+  end
+  def destoy
+        @user = User.find(params[:id])
+    followings = current_user.unfollow(@user)
+    if followings.destroy
+      flash[:success] = 'ユーザーのフォローを解除しました'
+      redirect_to users_path
+    else
+      flash.now[:alert] = 'ユーザーのフォロー解除に失敗しました'
+      redirect_to users_path
+    end
   end
 
   private

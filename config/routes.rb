@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
  resources :books do
  	resource :book_comments,only:[:create,:destroy]
- 	resource :favorites, only: [:create, :destroy]
  end
+  post   '/like/:book_id' => 'likes#like',   as: 'like'
+  delete '/like/:book_id' => 'likes#unlike', as: 'unlike'
  resources :users do
  	get 'followindex'
     get 'followerindex'
